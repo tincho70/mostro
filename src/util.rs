@@ -286,7 +286,7 @@ pub async fn update_order_event(keys: &Keys, status: Status, order: &Order) -> R
     Ok(order_updated)
 }
 
-pub async fn connect_nostr() -> Result<Client> {
+pub async fn connect_nostr(keys: &Keys) -> Result<Client> {
     let nostr_settings = Settings::get_nostr();
 
     let mut limits = RelayLimits::default();
@@ -295,7 +295,7 @@ pub async fn connect_nostr() -> Result<Client> {
     let opts = Options::new().relay_limits(limits);
 
     // Create new client
-    let client = ClientBuilder::default().opts(opts).build();
+    let client = ClientBuilder::new().signer(keys).opts(opts).build();
 
     // Add relays
     client.add_relays(nostr_settings.relays).await?;

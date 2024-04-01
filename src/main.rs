@@ -55,13 +55,14 @@ async fn main() -> Result<()> {
     // Connect to database
     let pool = db::connect().await?;
 
+    let my_keys = util::get_keys()?;
+
     // Connect to relays
     // from now unwrap is safe - oncelock inited
-    if NOSTR_CLIENT.set(util::connect_nostr().await?).is_err() {
+    if NOSTR_CLIENT.set(util::connect_nostr(&my_keys).await?).is_err() {
         error!("No connection to nostr relay - closing Mostro!");
     };
 
-    let my_keys = util::get_keys()?;
 
     let subscription = Filter::new()
         .pubkey(my_keys.public_key())
