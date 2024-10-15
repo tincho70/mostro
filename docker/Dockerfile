@@ -3,7 +3,7 @@ FROM rust:latest as builder
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y cmake build-essential libsqlite3-dev pkg-config libssl-dev
+    apt-get install -y cmake build-essential libsqlite3-dev pkg-config libssl-dev protobuf-compiler
 
 # Clone repository
 RUN git clone https://github.com/MostroP2P/mostro.git /mostro
